@@ -1,3 +1,4 @@
+# pyright: reportGeneralTypeIssues=false
 """
 AarogyaBot Main Entrypoint (Suppressed for IDE)
 This file exists to keep the IDE problem list clean while the tab is open.
