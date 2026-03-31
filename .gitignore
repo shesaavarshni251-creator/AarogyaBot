@@ -14,6 +14,7 @@ env/
 audio_output/
 uploads/
 chat_logs/
+test_whisper.py
 .DS_Store
 Thumbs.db
 
