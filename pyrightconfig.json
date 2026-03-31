@@ -1,0 +1,14 @@
+{
+    "venvPath": ".",
+    "venv": ".venv",
+    "include": ["backend"],
+    "exclude": ["**/__pycache__", ".venv"],
+    "executionEnvironments": [
+        {
+            "root": ".",
+            "extraPaths": ["."]
+        }
+    ],
+    "reportMissingImports": "warning",
+    "pythonVersion": "3.11"
+}

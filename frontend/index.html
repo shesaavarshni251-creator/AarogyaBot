@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AarogyaBot — AI-powered multilingual healthcare voice assistant supporting Tamil and Hindi">
+    <title>AarogyaBot — Healthcare Voice Assistant</title>
+
+    <!-- Google Fonts: Inter for modern, clean typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         HEADER — App title, language selector, and navigation tabs
+         ═══════════════════════════════════════════════════════════════════ -->
+    <header id="app-header">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-icon">🏥</span>
+                <h1>AarogyaBot</h1>
+                <span class="brand-tagline">AI Health Assistant</span>
+            </div>
+            <div class="header-controls">
+                <!-- Language selector -->
+                <select id="language-select" title="Select language">
+                    <option value="">Auto Detect</option>
+                    <option value="hi">हिन्दी (Hindi)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="en">English</option>
+                </select>
+                <!-- Tab navigation -->
+                <nav class="tab-nav">
+                    <button id="tab-chat" class="tab-btn active" data-tab="chat">💬 Chat</button>
+                    <button id="tab-dashboard" class="tab-btn" data-tab="dashboard">📊 Dashboard</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MAIN CONTENT AREA
+         ═══════════════════════════════════════════════════════════════════ -->
+    <main id="app-main">
+
+        <!-- ─── Chat Tab ──────────────────────────────────────────────── -->
+        <section id="chat-section" class="tab-content active">
+
+            <!-- Chat messages container -->
+            <div id="chat-container">
+                <!-- Welcome message -->
+                <div class="message bot-message welcome-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p><strong>Welcome to AarogyaBot!</strong></p>
+                        <p>🏥 I'm your AI health assistant. I can help you understand symptoms and find nearby clinics.</p>
+                        <p>🎤 Press the microphone button and speak in <strong>Hindi</strong>, <strong>Tamil</strong>, or <strong>English</strong>.</p>
+                        <p class="disclaimer">⚠️ I am not a doctor. Always consult a medical professional for serious concerns.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recording controls -->
+            <div id="controls-bar">
+                <div class="controls-inner">
+                    <!-- Status indicator -->
+                    <div id="status-indicator">
+                        <span id="status-dot"></span>
+                        <span id="status-text">Ready — Tap mic to speak</span>
+                    </div>
+
+                    <!-- Record button -->
+                    <button id="record-btn" title="Press to record voice">
+                        <span class="mic-icon">🎤</span>
+                        <span class="recording-pulse"></span>
+                    </button>
+
+                    <!-- Audio playback for bot response -->
+                    <audio id="response-audio" style="display: none;"></audio>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Dashboard Tab ─────────────────────────────────────────── -->
+        <section id="dashboard-section" class="tab-content">
+            <div class="dashboard-grid">
+                <!-- Stat cards -->
+                <div class="stat-card" id="stat-sessions">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="stat-sessions-value">0</div>
+                    <div class="stat-label">Total Sessions</div>
+                </div>
+                <div class="stat-card" id="stat-interactions">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-value" id="stat-interactions-value">0</div>
+                    <div class="stat-label">Total Interactions</div>
+                </div>
+                <div class="stat-card urgency-high" id="stat-high">
+                    <div class="stat-icon">🔴</div>
+                    <div class="stat-value" id="stat-high-value">0</div>
+                    <div class="stat-label">High Urgency</div>
+                </div>
+                <div class="stat-card urgency-medium" id="stat-medium">
+                    <div class="stat-icon">🟡</div>
+                    <div class="stat-value" id="stat-medium-value">0</div>
+                    <div class="stat-label">Medium Urgency</div>
+                </div>
+                <div class="stat-card urgency-low" id="stat-low">
+                    <div class="stat-icon">🟢</div>
+                    <div class="stat-value" id="stat-low-value">0</div>
+                    <div class="stat-label">Low Urgency</div>
+                </div>
+                <div class="stat-card" id="stat-languages">
+                    <div class="stat-icon">🌐</div>
+                    <div class="stat-value" id="stat-languages-value">—</div>
+                    <div class="stat-label">Languages Used</div>
+                </div>
+
+                <!-- Recent activity log -->
+                <div class="recent-log" id="recent-log">
+                    <h3>📋 Recent Activity</h3>
+                    <div id="log-entries">
+                        <p class="empty-log">No activity yet. Start a conversation!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

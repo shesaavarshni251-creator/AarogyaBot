@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Apollo Clinic",
+    "specialty": "General Medicine",
+    "address": "15 Anna Salai, Chennai, Tamil Nadu",
+    "phone": "+91-44-28190000",
+    "lat": 13.0604,
+    "lng": 80.2496,
+    "rating": 4.5,
+    "region": "Tamil Nadu"
+  },
+  {
+    "name": "Kauvery Hospital",
+    "specialty": "Cardiology",
+    "address": "199 Luz Church Road, Chennai, Tamil Nadu",
+    "phone": "+91-44-40006000",
+    "lat": 13.0358,
+    "lng": 80.2668,
+    "rating": 4.7,
+    "region": "Tamil Nadu"
+  },
+  {
+    "name": "MIOT International",
+    "specialty": "Orthopedics",
+    "address": "4/112 Mount Poonamallee Road, Chennai, Tamil Nadu",
+    "phone": "+91-44-42002288",
+    "lat": 13.0300,
+    "lng": 80.1711,
+    "rating": 4.6,
+    "region": "Tamil Nadu"
+  },
+  {
+    "name": "Sri Ramachandra Hospital",
+    "specialty": "Pediatrics",
+    "address": "1 Ramachandra Nagar, Porur, Chennai, Tamil Nadu",
+    "phone": "+91-44-24768027",
+    "lat": 13.0321,
+    "lng": 80.1419,
+    "rating": 4.4,
+    "region": "Tamil Nadu"
+  },
+  {
+    "name": "Meenakshi Mission Hospital",
+    "specialty": "General Medicine",
+    "address": "Lake Area, Melur Road, Madurai, Tamil Nadu",
+    "phone": "+91-452-4250000",
+    "lat": 9.9399,
+    "lng": 78.1538,
+    "rating": 4.3,
+    "region": "Tamil Nadu"
+  },
+  {
+    "name": "AIIMS Delhi",
+    "specialty": "General Medicine",
+    "address": "Sri Aurobindo Marg, New Delhi",
+    "phone": "+91-11-26588500",
+    "lat": 28.5672,
+    "lng": 77.2100,
+    "rating": 4.8,
+    "region": "Delhi"
+  },
+  {
+    "name": "Max Super Speciality Hospital",
+    "specialty": "Cardiology",
+    "address": "1, Press Enclave Road, Saket, New Delhi",
+    "phone": "+91-11-26515050",
+    "lat": 28.5273,
+    "lng": 77.2177,
+    "rating": 4.6,
+    "region": "Delhi"
+  },
+  {
+    "name": "Fortis Hospital",
+    "specialty": "Orthopedics",
+    "address": "Sector B, Pocket 1, Vasant Kunj, New Delhi",
+    "phone": "+91-11-42776222",
+    "lat": 28.5197,
+    "lng": 77.1537,
+    "rating": 4.5,
+    "region": "Delhi"
+  },
+  {
+    "name": "Medanta - The Medicity",
+    "specialty": "Neurology",
+    "address": "CH Baktawar Singh Road, Sector 38, Gurugram, Haryana",
+    "phone": "+91-124-4141414",
+    "lat": 28.4397,
+    "lng": 77.0429,
+    "rating": 4.7,
+    "region": "Haryana"
+  },
+  {
+    "name": "Sanjay Gandhi Post Graduate Institute",
+    "specialty": "Gastroenterology",
+    "address": "Raebareli Road, Lucknow, Uttar Pradesh",
+    "phone": "+91-522-2668700",
+    "lat": 26.8313,
+    "lng": 81.0098,
+    "rating": 4.4,
+    "region": "Uttar Pradesh"
+  },
+  {
+    "name": "King George Medical University",
+    "specialty": "Pediatrics",
+    "address": "Shah Mina Road, Chowk, Lucknow, Uttar Pradesh",
+    "phone": "+91-522-2257540",
+    "lat": 26.8569,
+    "lng": 80.9147,
+    "rating": 4.2,
+    "region": "Uttar Pradesh"
+  },
+  {
+    "name": "Rajiv Gandhi Government General Hospital",
+    "specialty": "General Medicine",
+    "address": "Park Town, Chennai, Tamil Nadu",
+    "phone": "+91-44-25305000",
+    "lat": 13.0890,
+    "lng": 80.2778,
+    "rating": 4.0,
+    "region": "Tamil Nadu"
+  }
+]
