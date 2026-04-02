@@ -31,9 +31,15 @@ def transcribe(audio_path: str, language: Optional[str] = None) -> dict:
             - "language": Detected language code (e.g., "hi", "ta")
     """
     try:
+        # ── Verify API Key ───────────────────────────────────────────────
+        if not OPENAI_API_KEY:
+            print("[STT] ERROR: OPENAI_API_KEY is not set in environment variables.")
+            return {"text": "", "language": DEFAULT_LANGUAGE}
+
         # ── Run OpenAI Whisper API transcription ──────────────────────────
         # Open the audio file in binary read mode
         with open(audio_path, "rb") as audio_file:
+            print(f"[STT] Sending file to OpenAI: {audio_path}")
             # API call to Whisper
             response = client.audio.transcriptions.create(
                 model="whisper-1",
@@ -49,7 +55,7 @@ def transcribe(audio_path: str, language: Optional[str] = None) -> dict:
         # transcription response. We use langdetect to identify/confirm it.
         detected_lang = language if language else _confirm_language(transcribed_text, DEFAULT_LANGUAGE)
 
-        print(f"[STT] Transcribed: '{transcribed_text}' (lang={detected_lang})")
+        print(f"[STT] Success: '{transcribed_text}' (lang={detected_lang})")
 
         return {
             "text": transcribed_text,
@@ -57,7 +63,10 @@ def transcribe(audio_path: str, language: Optional[str] = None) -> dict:
         }
 
     except Exception as e:
-        print(f"[STT] Error during transcription: {e}")
+        print(f"[STT] CRITICAL ERROR during transcription: {str(e)}")
+        # Log more details if possible
+        if "api_key" in str(e).lower():
+            print("[STT] Likely an API Key issue.")
         return {
             "text": "",
             "language": DEFAULT_LANGUAGE,
