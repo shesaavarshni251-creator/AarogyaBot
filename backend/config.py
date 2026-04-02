@@ -14,20 +14,24 @@ load_dotenv()
 # Root directory of the project (one level up from backend/)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+# Vercel has a read-only filesystem, except for /tmp
+IS_VERCEL = bool(os.getenv("VERCEL"))
+BASE_WRITABLE_DIR = Path("/tmp") if IS_VERCEL else PROJECT_ROOT
+
 # Directory where TTS audio files are saved
-AUDIO_OUTPUT_DIR = PROJECT_ROOT / "audio_output"
-AUDIO_OUTPUT_DIR.mkdir(exist_ok=True)
+AUDIO_OUTPUT_DIR = BASE_WRITABLE_DIR / "audio_output"
+AUDIO_OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
 # Directory where chat session logs are stored
-CHAT_LOGS_DIR = PROJECT_ROOT / "chat_logs"
-CHAT_LOGS_DIR.mkdir(exist_ok=True)
+CHAT_LOGS_DIR = BASE_WRITABLE_DIR / "chat_logs"
+CHAT_LOGS_DIR.mkdir(exist_ok=True, parents=True)
 
 # Path to the mock clinics dataset
 CLINICS_DATA_PATH = Path(__file__).resolve().parent / "data" / "clinics.json"
 
 # Directory for temporary uploaded audio files
-UPLOAD_DIR = PROJECT_ROOT / "uploads"
-UPLOAD_DIR.mkdir(exist_ok=True)
+UPLOAD_DIR = BASE_WRITABLE_DIR / "uploads"
+UPLOAD_DIR.mkdir(exist_ok=True, parents=True)
 
 # ── API Keys ─────────────────────────────────────────────────────────────────
 # OpenAI API key — required for GPT-4o processing
