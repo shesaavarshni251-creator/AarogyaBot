@@ -1,7 +1,6 @@
 fastapi
 uvicorn[standard]
 python-multipart
-openai-whisper
 openai>=1.0.0
 gTTS
 langdetect

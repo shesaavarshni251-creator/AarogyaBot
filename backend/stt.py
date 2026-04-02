@@ -1,6 +1,6 @@
 """
 stt.py — Speech-to-Text Module
-Uses OpenAI Whisper (runs locally) to transcribe Tamil/Hindi audio.
+Uses OpenAI Whisper API (remote) to transcribe Tamil/Hindi audio.
 Falls back to langdetect for language confirmation.
 """
 
@@ -8,37 +8,22 @@ import os
 import shutil
 from typing import Optional
 
-import whisper  # type: ignore # pyright: ignore
+from openai import OpenAI  # type: ignore # pyright: ignore
 from langdetect import detect, LangDetectException  # type: ignore # pyright: ignore
-from .config import WHISPER_MODEL, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES  # type: ignore # pyright: ignore
+from .config import OPENAI_API_KEY, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES  # type: ignore # pyright: ignore
 
-# ── FFmpeg Path Fix ──────────────────────────────────────────────────────────
-# If winget installed FFmpeg but it's not yet in the PATH, we add the default 
-# winget location to ensure Whisper can find it immediately.
-if not shutil.which("ffmpeg"):
-    winget_path = os.path.expandvars(
-        r"%LOCALAPPDATA%\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1-full_build\bin"
-    )
-    if os.path.exists(winget_path):
-        os.environ["PATH"] += os.pathsep + winget_path
-        print(f"[STT] Added FFmpeg to PATH from: {winget_path}")
-
-# ── Load Whisper Model ───────────────────────────────────────────────────────
-# The model is loaded once when this module is first imported.
-# "base" model is ~140MB and works well for most languages.
-print(f"[STT] Loading Whisper model: {WHISPER_MODEL} ...")
-model = whisper.load_model(WHISPER_MODEL)
-print("[STT] Whisper model loaded successfully!")
+# ── Initialize OpenAI Client ───────────────────────────────────────────────
+# This uses the API key from config.py
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def transcribe(audio_path: str, language: Optional[str] = None) -> dict:
     """
-    Transcribe an audio file to text.
+    Transcribe an audio file using OpenAI's Whisper API.
 
     Args:
         audio_path: Path to the audio file (WAV, MP3, etc.)
         language: Optional language code ('ta', 'hi', 'en').
-                  If None, Whisper will auto-detect the language.
 
     Returns:
         dict with keys:
@@ -46,22 +31,23 @@ def transcribe(audio_path: str, language: Optional[str] = None) -> dict:
             - "language": Detected language code (e.g., "hi", "ta")
     """
     try:
-        # ── Run Whisper transcription ────────────────────────────────────
-        # If language is specified, tell Whisper to use it for better accuracy
-        options = {}
-        if language and language in SUPPORTED_LANGUAGES:
-            options["language"] = language
+        # ── Run OpenAI Whisper API transcription ──────────────────────────
+        # Open the audio file in binary read mode
+        with open(audio_path, "rb") as audio_file:
+            # API call to Whisper
+            response = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+                # If language is provided, pass it to the API
+                language=language if language in SUPPORTED_LANGUAGES else None
+            )
 
-        result = model.transcribe(str(audio_path), **options)
-
-        transcribed_text = result.get("text", "").strip()
-        detected_lang = result.get("language", DEFAULT_LANGUAGE)
-
-        # ── Confirm language using langdetect ────────────────────────────
-        # Whisper's language detection is good, but we double-check with
-        # langdetect for supported languages
-        if not language:
-            detected_lang = _confirm_language(transcribed_text, detected_lang)
+        transcribed_text = response.text.strip()
+        
+        # ── Confirm Language ─────────────────────────────────────────────
+        # OpenAI API doesn't return the detected language code in the simple 
+        # transcription response. We use langdetect to identify/confirm it.
+        detected_lang = language if language else _confirm_language(transcribed_text, DEFAULT_LANGUAGE)
 
         print(f"[STT] Transcribed: '{transcribed_text}' (lang={detected_lang})")
 
@@ -78,20 +64,19 @@ def transcribe(audio_path: str, language: Optional[str] = None) -> dict:
         }
 
 
-def _confirm_language(text: str, whisper_lang: str) -> str:
+def _confirm_language(text: str, default_lang: str) -> str:
     """
-    Use langdetect to confirm the language detected by Whisper.
-    If langdetect agrees or can't decide, we trust Whisper.
+    Use langdetect to identify the language of the transcribed text.
 
     Args:
         text: The transcribed text
-        whisper_lang: Language code from Whisper
+        default_lang: fallback language
 
     Returns:
-        Final language code
+        Detected language code or default
     """
     if not text:
-        return whisper_lang
+        return default_lang
 
     try:
         detected = detect(text)
@@ -101,5 +86,4 @@ def _confirm_language(text: str, whisper_lang: str) -> str:
     except LangDetectException:
         pass  # langdetect couldn't determine language
 
-    # Fall back to Whisper's detection
-    return whisper_lang if whisper_lang in SUPPORTED_LANGUAGES else DEFAULT_LANGUAGE
+    return default_lang
