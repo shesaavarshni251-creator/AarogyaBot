@@ -35,8 +35,15 @@ UPLOAD_DIR.mkdir(exist_ok=True, parents=True)
 
 # ── API Keys ─────────────────────────────────────────────────────────────────
 # OpenAI API key — required for GPT-4o processing
-# If not set, the app falls back to a simple rule-based symptom matcher
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
+# Debugging check (Safe for production)
+if OPENAI_API_KEY:
+    # Shows first 4 and last 3 chars for confirmation without leaking the secret
+    print(f"[Config] OpenAI API Key found: {OPENAI_API_KEY[:4]}...{OPENAI_API_KEY[-3:]}")
+else:
+    print("[Config] CRITICAL ERROR: OpenAI API Key is EXPLICITLY EMPTY. Please check Project-level Env Vars.")
+
 
 # ── Whisper Settings ─────────────────────────────────────────────────────────
 # Model size: tiny, base, small, medium, large
